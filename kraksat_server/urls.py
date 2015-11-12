@@ -17,10 +17,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework import routers
 
-from api.views import HelloViewSet
+from api.views import HelloViewSet, SHTViewSet
 
 router = routers.DefaultRouter()
 router.register(r'hello', HelloViewSet, base_name='hello')
+router.register(r'sht', SHTViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
