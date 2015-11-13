@@ -3,7 +3,7 @@
 from django.conf.urls import include, url
 from rest_framework import routers
 
-from api.views import HelloViewSet, SHTViewSet
+from api.views import SHTViewSet
 
 router = routers.DefaultRouter()
 router.register(r'sht', SHTViewSet)
