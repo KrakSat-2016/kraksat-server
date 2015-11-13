@@ -44,7 +44,7 @@ ROOT_URLCONF = 'kraksat_server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, '..', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,7 +64,8 @@ WSGI_APPLICATION = 'kraksat_server.wsgi.application'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
-    ]
+    ],
+    'VIEW_NAME_FUNCTION': 'api.views.get_view_name',
 }
 
 # Internationalization
