@@ -3,10 +3,11 @@
 from django.conf.urls import include, url
 from rest_framework import routers
 
-from api.views import SHTViewSet
+from api.views import SHTViewSet, IMUViewSet
 
 router = routers.DefaultRouter()
 router.register(r'sht', SHTViewSet)
+router.register(r'imu', IMUViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

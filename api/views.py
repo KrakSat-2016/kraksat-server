@@ -1,8 +1,8 @@
 import rest_framework
 from rest_framework import viewsets
 
-from api.models import SHT
-from api.serializers import SHTSerializer
+from api.models import SHT, IMU
+from api.serializers import SHTSerializer, IMUSerializer
 
 
 def get_view_name(view_cls, suffix=None):
@@ -27,3 +27,9 @@ class SHTViewSet(viewsets.ModelViewSet):
     display_name = 'SHT Data'
     queryset = SHT.objects.all()
     serializer_class = SHTSerializer
+
+
+class IMUViewSet(viewsets.ModelViewSet):
+    display_name = 'IMU Data'
+    queryset = IMU.objects.all()
+    serializer_class = IMUSerializer
