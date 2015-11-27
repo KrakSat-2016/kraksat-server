@@ -6,7 +6,7 @@ class SHT(models.Model):
 
     For Sensirion SHT21 sensor.
     """
-    timestamp = models.DateTimeField(primary_key=True)
+    timestamp = models.DateTimeField(db_index=True, unique=True)
 
     humidity = models.DecimalField(
         max_digits=5, decimal_places=2,
