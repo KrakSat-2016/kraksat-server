@@ -50,6 +50,8 @@ class KrakSatAPITestCase(APITestCase):
         data_l = self.__generate_data_list(l)
         for msg, data in data_l:
             with self.subTest(msg=msg, data=data):
+                # Ensure 0 model instances even after single sub-test failure
+                self.model.objects.all().delete()
                 response = self.client.post(self.list_url, data, format='json')
                 self.assertEqual(response.status_code,
                                  status.HTTP_400_BAD_REQUEST)
