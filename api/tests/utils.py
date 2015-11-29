@@ -28,8 +28,9 @@ class KrakSatAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(self.model.objects.count(), 1)
         result = model_to_dict(self.model.objects.get())
-        self.assertTrue(all(self.valid_data[k] == result[k]
-                            for k in self.valid_data.keys()))
+        for k in self.valid_data.keys():
+            self.assertEqual(self.valid_data[k], result[k],
+                             msg='\'{}\' values are not equal'.format(k))
 
     def _test_invalid_params(self, *l):
         """Ensure sending invalid parameters to self.list_url causes error 400.
