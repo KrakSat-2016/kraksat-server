@@ -14,7 +14,7 @@ class IMUTests(KrakSatAPITestCase):
         'timestamp': timezone.now().replace(microsecond=0),
         'gyro_x': 5.5, 'gyro_y': 12.5, 'gyro_z': 3.5,
         'accel_x': 0.1, 'accel_y': 0.15, 'accel_z': 0.31,
-        'magnet_x': 5, 'magnet_y': 5, 'magnet_z': 5,
+        'magnet_x': 5.001, 'magnet_y': 2.01, 'magnet_z': 9.999,
         'pressure': 1020.5
     }
 
