@@ -1,5 +1,4 @@
 from django.core.urlresolvers import reverse
-from django.utils import timezone
 
 from api.models import SHT
 from api.tests.utils import KrakSatAPITestCase
@@ -11,7 +10,7 @@ class SHTTests(KrakSatAPITestCase):
     list_url = reverse('sht-list')
     model = SHT
     valid_data = {
-        'timestamp': timezone.now().replace(microsecond=0),
+        'timestamp': KrakSatAPITestCase.TIMESTAMP,
         'humidity': 20, 'temperature': 30
     }
 

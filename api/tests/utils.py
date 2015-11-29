@@ -1,4 +1,5 @@
 from django.forms import model_to_dict
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -8,6 +9,12 @@ class KrakSatAPITestCase(APITestCase):
     APITestCase abstract subclass that provides a few utility functions to
     simplify testing API endpoints.
     """
+
+    # Example fixed timestamp to be used in valid_data
+    # Use timezone.now() to be settings.USE_TZ-independent
+    TIMESTAMP = timezone.now().replace(year=2015, month=12, day=18,
+                                       hour=12, minute=30, second=27,
+                                       microsecond=0)
 
     # URL to 'list' API endpoint
     list_url = None

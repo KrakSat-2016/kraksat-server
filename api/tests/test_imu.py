@@ -1,5 +1,4 @@
 from django.core.urlresolvers import reverse
-from django.utils import timezone
 
 from api.models import IMU
 from api.tests.utils import KrakSatAPITestCase
@@ -11,7 +10,7 @@ class IMUTests(KrakSatAPITestCase):
     list_url = reverse('imu-list')
     model = IMU
     valid_data = {
-        'timestamp': timezone.now().replace(microsecond=0),
+        'timestamp': KrakSatAPITestCase.TIMESTAMP,
         'gyro_x': 5.5, 'gyro_y': 12.5, 'gyro_z': 3.5,
         'accel_x': 0.1, 'accel_y': 0.15, 'accel_z': 0.31,
         'magnet_x': 5.001, 'magnet_y': 2.01, 'magnet_z': 9.999,
