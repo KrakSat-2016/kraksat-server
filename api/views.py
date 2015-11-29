@@ -1,8 +1,8 @@
 import rest_framework
 from rest_framework import viewsets
 
-from api.models import SHT, IMU
-from api.serializers import SHTSerializer, IMUSerializer
+from api.models import SHT, IMU, GPS
+from api.serializers import SHTSerializer, IMUSerializer, GPSSerializer
 
 
 def get_view_name(view_cls, suffix=None):
@@ -33,3 +33,9 @@ class IMUViewSet(viewsets.ModelViewSet):
     display_name = 'IMU Data'
     queryset = IMU.objects.all()
     serializer_class = IMUSerializer
+
+
+class GPSViewSet(viewsets.ModelViewSet):
+    display_name = 'GPS Fix Data'
+    queryset = GPS.objects.all()
+    serializer_class = GPSSerializer
