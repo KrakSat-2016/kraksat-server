@@ -2,9 +2,9 @@ from django.db import models
 
 
 class SHT(models.Model):
-    """SHT (Humidity and Temperature) data.
+    """SHT (Humidity and Temperature) data
 
-    For Sensirion SHT21 sensor.
+    For Sensirion SHT21 sensor
     """
     timestamp = models.DateTimeField(db_index=True, unique=True)
 
