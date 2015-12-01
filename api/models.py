@@ -81,3 +81,10 @@ class GPS(models.Model):
                              help_text='Horizontal Dilution Of Precision')
     vdop = models.FloatField(verbose_name='VDOP',
                              help_text='Vertical Dilution Of Precision')
+
+
+class Photo(models.Model):
+    """Photo taken during the flight"""
+    timestamp = models.DateTimeField(db_index=True, unique=True)
+    image = models.ImageField()
+    is_panorama = models.BooleanField()

@@ -86,3 +86,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Uploads
+
+ALLOWED_IMAGE_EXTENSIONS = ('JPG', 'JPEG', 'PNG')
+MEDIA_URL = '/media/'

@@ -1,7 +1,10 @@
+import os
+
+from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from rest_framework import serializers
 
-from api.models import SHT, IMU, GPS
+from api.models import SHT, IMU, GPS, Photo
 
 
 class SHTSerializer(serializers.HyperlinkedModelSerializer):
@@ -44,3 +47,20 @@ class GPSSerializer(serializers.HyperlinkedModelSerializer):
         self.fields['speed_over_ground'].validators = [MinValueValidator(0)]
         self.fields['active_satellites'].validators = [MinValueValidator(0)]
         self.fields['satellites_in_view'].validators = [MinValueValidator(0)]
+
+
+class PhotoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Photo
+        fields = '__all__'
+
+    def validate_image(self, value):
+        name, ext = os.path.splitext(value.name)
+        ext = ext[1:].upper()
+        allowed_exts = settings.ALLOWED_IMAGE_EXTENSIONS
+        if ext not in allowed_exts:
+            raise serializers.ValidationError(
+                '\'{}\': \'{}\' extension not in the list: {}'
+                .format(value.name, ext, allowed_exts))
+
+        return value

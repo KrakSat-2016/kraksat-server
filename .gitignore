@@ -51,6 +51,9 @@ coverage.xml
 *.log
 db.sqlite3
 
+# Uploads
+media/
+
 # Sphinx documentation
 docs/_build/
 
