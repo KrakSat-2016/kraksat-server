@@ -1,5 +1,6 @@
 import os
 
+from django.contrib.auth.models import User
 from django.forms import model_to_dict
 from django.utils import timezone
 from rest_framework import status
@@ -38,9 +39,20 @@ class KrakSatAPITestCase(APITestCase):
         :param iterable exclude: return values to be ignored when comparing
             equality with sent data
         """
-        response = self.client.post(self.list_url, self.valid_data,
+
+        def make_request():
+            return self.client.post(self.list_url, self.valid_data,
                                     format=self.send_format)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # Ensure 401 UNAUTHORIZED is returned when not authenticated
+        response = make_request()
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED,
+                         msg='Unauthenticated request did not return 401')
+
+        self.__force_auth()
+        response = make_request()
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED,
+                         msg=response.data)
         self.assertEqual(self.model.objects.count(), 1)
         result = model_to_dict(self.model.objects.get())
         for k in self.valid_data.keys():
@@ -56,6 +68,7 @@ class KrakSatAPITestCase(APITestCase):
             'Test' for a subtask that will send self.valid_data with 'param'
             replaced by 'foo'.
         """
+        self.__force_auth()
         data_l = self.__generate_data_list(l)
         for msg, data in data_l:
             with self.subTest(msg=msg, data=data):
@@ -76,6 +89,12 @@ class KrakSatAPITestCase(APITestCase):
             data_copy = self.valid_data.copy()
             data_copy.update(d)
             yield msg, data_copy
+
+    def __force_auth(self):
+        """Create test user and authenticate subsequent requests with it."""
+        test_user = User.objects.create_user('test_user', 'test@localhost',
+                                             'test')
+        self.client.force_authenticate(user=test_user)
 
 
 def get_resource_path(name):
