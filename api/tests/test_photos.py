@@ -42,7 +42,7 @@ class PhotosTests(KrakSatAPITestCase):
     @override_settings(ALLOWED_IMAGE_EXTENSIONS=('PNG',))
     def test_invalid_params(self):
         """Ensure sending invalid parameters to /photos returns error 400"""
-        invalid_contents = SUF('test.png', b'test contents', 'image/png')
+        invalid_contents = SUF('test.png', b'test image contents', 'image/png')
         invalid_ext = SUF('invalid.ext1337', self.valid_data['image'].read(),
                           'image/png')
         self._test_invalid_params(
