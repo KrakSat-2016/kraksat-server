@@ -18,12 +18,17 @@ class PhotosTests(KrakSatAPITestCase):
 
     list_url = reverse('photo-list')
     model = Photo
-    valid_data = {
-        'timestamp': KrakSatAPITestCase.TIMESTAMP,
-        'image': open(get_resource_path('test.png'), mode='rb'),
-        'is_panorama': True,
-    }
     send_format = 'multipart'
+
+    @property
+    def valid_data(self):
+        # We use @property here because we have to open() test.png each time
+        # it is used
+        return {
+            'timestamp': KrakSatAPITestCase.TIMESTAMP,
+            'image': open(get_resource_path('test.png'), mode='rb'),
+            'is_panorama': True,
+        }
 
     @classmethod
     def tearDownClass(cls):
