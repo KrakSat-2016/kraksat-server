@@ -1,6 +1,7 @@
 import rest_framework
 from rest_framework import viewsets
 
+from api.filters import PhotoFilter, IMUFilter, SHTFilter, GPSFilter
 from api.models import SHT, IMU, GPS, Photo
 from api.serializers import (
     SHTSerializer, IMUSerializer, GPSSerializer, PhotoSerializer
@@ -24,28 +25,38 @@ def get_view_name(view_cls, suffix=None):
     return rest_framework.views.get_view_name(view_cls, suffix)
 
 
-class SHTViewSet(viewsets.ModelViewSet):
+class TimestampOrderingMixin:
+    """ModelViewSet mixin that sets default ordering field to timestamp"""
+    ordering_fields = ('timestamp',)
+    ordering = ('timestamp',)
+
+
+class SHTViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     """SHT (Humidity and Temperature) sensor data."""
     display_name = 'SHT Data'
     queryset = SHT.objects.all()
     serializer_class = SHTSerializer
+    filter_class = SHTFilter
 
 
-class IMUViewSet(viewsets.ModelViewSet):
+class IMUViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     """IMU (Inertial Measurement Unit) sensor data."""
     display_name = 'IMU Data'
     queryset = IMU.objects.all()
     serializer_class = IMUSerializer
+    filter_class = IMUFilter
 
 
-class GPSViewSet(viewsets.ModelViewSet):
+class GPSViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     """GPS (Global Positioning System) fix data."""
     display_name = 'GPS Fix Data'
     queryset = GPS.objects.all()
     serializer_class = GPSSerializer
+    filter_class = GPSFilter
 
 
-class PhotoViewSet(viewsets.ModelViewSet):
+class PhotoViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     """Photos taken during the flight."""
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+    filter_class = PhotoFilter
