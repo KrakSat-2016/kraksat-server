@@ -44,7 +44,7 @@ Basically, an `Authorization` HTTP header is needed for every "non-safe" or
 ```
 Authorization: Token 28619272344753805f6f6724c8c6f0d7ea5aeb42
 ```
-A token for a particular user can be obtained by `/token-auth/` API endpoint:
+A token for a particular user can be obtained using `/token-auth/` API endpoint:
 ```
 $ curl -X POST http://127.0.0.1:8000/token-auth/ -d "username=test&password=test"
 {"token":"28619272344753805f6f6724c8c6f0d7ea5aeb42"}
