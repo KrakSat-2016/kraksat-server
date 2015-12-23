@@ -5,9 +5,11 @@
 ### Requirements
 * Python 3.5
 
-### Before running anything
+### Installing
 ```
-export DJANGO_SETTINGS_MODULE=kraksat_server.settings.local
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
 ```
 For running the server on production, copy
 `kraksat_server/settings/production.py.example` to `production.py`, modify
@@ -15,13 +17,7 @@ as needed and then use:
 ```
 export DJANGO_SETTINGS_MODULE=kraksat_server.settings.production
 ```
-
-### Installing
-```
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py createsuperuser
-```
+Before running any manage.py command.
 
 ### Running
 ```
