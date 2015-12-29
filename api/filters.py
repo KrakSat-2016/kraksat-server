@@ -1,7 +1,7 @@
 import django_filters
 from django.forms import widgets
 
-from api.models import Photo, SHT, IMU, GPS
+from api.models import Photo, SHT, IMU, GPS, GSInfo
 
 
 class TimestampFilterSet(django_filters.FilterSet):
@@ -38,3 +38,9 @@ class PhotoFilter(TimestampFilterSet):
     class Meta:
         model = Photo
         fields = ('is_panorama',)
+
+
+class GSInfoFilter(TimestampFilterSet):
+    class Meta:
+        model = GSInfo
+        fields = ()

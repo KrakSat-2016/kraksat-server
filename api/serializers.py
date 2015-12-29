@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from rest_framework import serializers
 
-from api.models import SHT, IMU, GPS, Photo
+from api.models import SHT, IMU, GPS, Photo, GSInfo
 
 
 class SHTSerializer(serializers.HyperlinkedModelSerializer):
@@ -64,3 +64,18 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
                 .format(value.name, ext, allowed_exts))
 
         return value
+
+
+class GSInfoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = GSInfo
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['latitude'].validators = [MinValueValidator(-90),
+                                              MaxValueValidator(90)]
+        self.fields['longitude'].validators = [MinValueValidator(-180),
+                                               MaxValueValidator(180)]
+        self.fields['timezone'].validators = [MinValueValidator(-24 * 60),
+                                              MaxValueValidator(24 * 60)]

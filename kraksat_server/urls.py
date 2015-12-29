@@ -5,13 +5,16 @@ from django.conf.urls.static import static
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
-from api.views import SHTViewSet, IMUViewSet, GPSViewSet, PhotoViewSet
+from api.views import (
+    SHTViewSet, IMUViewSet, GPSViewSet, PhotoViewSet, GSInfoViewSet
+)
 
 router = routers.DefaultRouter()
 router.register(r'sht', SHTViewSet)
 router.register(r'imu', IMUViewSet)
 router.register(r'gps', GPSViewSet)
 router.register(r'photos', PhotoViewSet)
+router.register(r'gsinfo', GSInfoViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

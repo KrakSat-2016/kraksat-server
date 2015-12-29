@@ -1,10 +1,13 @@
 import rest_framework
 from rest_framework import viewsets
 
-from api.filters import PhotoFilter, IMUFilter, SHTFilter, GPSFilter
-from api.models import SHT, IMU, GPS, Photo
+from api.filters import (
+    PhotoFilter, IMUFilter, SHTFilter, GPSFilter, GSInfoFilter
+)
+from api.models import SHT, IMU, GPS, Photo, GSInfo
 from api.serializers import (
-    SHTSerializer, IMUSerializer, GPSSerializer, PhotoSerializer
+    SHTSerializer, IMUSerializer, GPSSerializer, PhotoSerializer,
+    GSInfoSerializer
 )
 
 
@@ -60,3 +63,10 @@ class PhotoViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     filter_class = PhotoFilter
+
+
+class GSInfoViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
+    """Information about the Ground Station."""
+    queryset = GSInfo.objects.all()
+    serializer_class = GSInfoSerializer
+    filter_class = GSInfoFilter

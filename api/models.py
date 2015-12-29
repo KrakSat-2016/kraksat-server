@@ -88,3 +88,14 @@ class Photo(models.Model):
     timestamp = models.DateTimeField(db_index=True, unique=True)
     image = models.ImageField()
     is_panorama = models.BooleanField()
+
+
+class GSInfo(models.Model):
+    """Information about the Ground Station"""
+    timestamp = models.DateTimeField(db_index=True, unique=True)
+
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    timezone = models.IntegerField(help_text='Timezone as UTC offset in '
+                                             'minutes (so e.g. UTC-01:45 '
+                                             'becomes -105)')
