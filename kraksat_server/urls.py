@@ -6,7 +6,8 @@ from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
 from api.views import (
-    SHTViewSet, IMUViewSet, GPSViewSet, PhotoViewSet, GSInfoViewSet
+    SHTViewSet, IMUViewSet, GPSViewSet, PhotoViewSet, GSInfoViewSet,
+    LatestGSInfoViewSet
 )
 
 router = routers.DefaultRouter()
@@ -14,6 +15,8 @@ router.register(r'sht', SHTViewSet)
 router.register(r'imu', IMUViewSet)
 router.register(r'gps', GPSViewSet)
 router.register(r'photos', PhotoViewSet)
+router.register(r'gsinfo/latest', LatestGSInfoViewSet,
+                base_name='latest_gsinfo')
 router.register(r'gsinfo', GSInfoViewSet)
 
 urlpatterns = [

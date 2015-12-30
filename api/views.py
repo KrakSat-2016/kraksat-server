@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from api.filters import (
     PhotoFilter, IMUFilter, SHTFilter, GPSFilter, GSInfoFilter
 )
-from api.mixins import TimestampOrderingMixin
+from api.mixins import TimestampOrderingMixin, LatestRecordMixin
 from api.models import SHT, IMU, GPS, Photo, GSInfo
 from api.serializers import (
     SHTSerializer, IMUSerializer, GPSSerializer, PhotoSerializer,
@@ -20,7 +20,8 @@ def get_view_name(view_cls, suffix=None):
     """
     if hasattr(view_cls, 'display_name'):
         name = view_cls.display_name
-        if suffix:
+        if suffix and (not hasattr(view_cls, 'append_suffix') or
+                       view_cls.append_suffix):
             name += ' ' + suffix
         return name
     if view_cls.__name__ == 'APIRoot':
@@ -60,8 +61,18 @@ class PhotoViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     filter_class = PhotoFilter
 
 
-class GSInfoViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
-    """Information about the Ground Station."""
+class BaseGSInfoViewSet(viewsets.GenericViewSet):
     queryset = GSInfo.objects.all()
     serializer_class = GSInfoSerializer
     filter_class = GSInfoFilter
+
+
+class GSInfoViewSet(BaseGSInfoViewSet, viewsets.ModelViewSet,
+                    TimestampOrderingMixin):
+    """Information about the Ground Station."""
+    display_name = 'Ground Station Info'
+
+
+class LatestGSInfoViewSet(BaseGSInfoViewSet, LatestRecordMixin):
+    """Latest information about the Ground Station."""
+    display_name = 'Latest Ground Station Info'
