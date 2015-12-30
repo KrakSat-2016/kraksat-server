@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from api.filters import (
     PhotoFilter, IMUFilter, SHTFilter, GPSFilter, GSInfoFilter
 )
+from api.mixins import TimestampOrderingMixin
 from api.models import SHT, IMU, GPS, Photo, GSInfo
 from api.serializers import (
     SHTSerializer, IMUSerializer, GPSSerializer, PhotoSerializer,
@@ -26,12 +27,6 @@ def get_view_name(view_cls, suffix=None):
         return 'API Root'
 
     return rest_framework.views.get_view_name(view_cls, suffix)
-
-
-class TimestampOrderingMixin:
-    """ModelViewSet mixin that sets default ordering field to timestamp"""
-    ordering_fields = ('timestamp',)
-    ordering = ('timestamp',)
 
 
 class SHTViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
