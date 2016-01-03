@@ -99,3 +99,28 @@ class GSInfo(models.Model):
     timezone = models.IntegerField(help_text='Timezone as UTC offset in '
                                              'minutes (so e.g. UTC-01:45 '
                                              'becomes -105)')
+
+
+class Status(models.Model):
+    """Mission Status"""
+    STATE_LAUNCH_PREPARATION = 'launch_preparation'
+    STATE_COUNTDOWN = 'countdown'
+    STATE_LAUNCH = 'launch'
+    STATE_DESCENT = 'descent'
+    STATE_GROUND_OPERATIONS = 'ground_operations'
+    STATE_MISSION_COMPLETE = 'mission_complete'
+    STATE_CHOICES = (
+        (STATE_LAUNCH_PREPARATION, 'Launch preparation'),
+        (STATE_COUNTDOWN, 'Countdown'),
+        (STATE_LAUNCH, 'Launch'),
+        (STATE_DESCENT, 'Descent'),
+        (STATE_GROUND_OPERATIONS, 'Ground operations'),
+        (STATE_MISSION_COMPLETE, 'Mission complete')
+    )
+
+    timestamp = models.DateTimeField(db_index=True, unique=True)
+    state = models.CharField(max_length=18, choices=STATE_CHOICES, blank=True)
+    mission_time = models.FloatField(
+            help_text='Current mission time in seconds. Negative value means '
+                      'countdown to start')
+    cansat_online = models.BooleanField()

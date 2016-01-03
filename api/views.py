@@ -2,13 +2,13 @@ import rest_framework
 from rest_framework import viewsets
 
 from api.filters import (
-    PhotoFilter, IMUFilter, SHTFilter, GPSFilter, GSInfoFilter
+    PhotoFilter, IMUFilter, SHTFilter, GPSFilter, GSInfoFilter, StatusFilter
 )
 from api.mixins import TimestampOrderingMixin, LatestRecordMixin
-from api.models import SHT, IMU, GPS, Photo, GSInfo
+from api.models import SHT, IMU, GPS, Photo, GSInfo, Status
 from api.serializers import (
     SHTSerializer, IMUSerializer, GPSSerializer, PhotoSerializer,
-    GSInfoSerializer
+    GSInfoSerializer, StatusSerializer
 )
 
 
@@ -76,3 +76,20 @@ class GSInfoViewSet(BaseGSInfoViewSet, viewsets.ModelViewSet,
 class LatestGSInfoViewSet(BaseGSInfoViewSet, LatestRecordMixin):
     """Latest information about the Ground Station."""
     display_name = 'Latest Ground Station Info'
+
+
+class BaseStatusViewSet(viewsets.GenericViewSet):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+    filter_class = StatusFilter
+
+
+class StatusViewSet(BaseStatusViewSet, viewsets.ModelViewSet,
+                    TimestampOrderingMixin):
+    """Mission status."""
+    display_name = 'Mission Status'
+
+
+class LatestStatusViewSet(BaseStatusViewSet, LatestRecordMixin):
+    """Latest mission status."""
+    display_name = 'Latest Mission Status'
