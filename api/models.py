@@ -122,5 +122,5 @@ class Status(models.Model):
     state = models.CharField(max_length=18, choices=STATE_CHOICES, blank=True)
     mission_time = models.FloatField(
             help_text='Current mission time in seconds. Negative value means '
-                      'countdown to start')
+                      'countdown to start', null=True)
     cansat_online = models.BooleanField()
