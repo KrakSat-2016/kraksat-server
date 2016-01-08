@@ -103,23 +103,23 @@ class GSInfo(models.Model):
 
 class Status(models.Model):
     """Mission Status"""
-    STATE_LAUNCH_PREPARATION = 'launch_preparation'
-    STATE_COUNTDOWN = 'countdown'
-    STATE_LAUNCH = 'launch'
-    STATE_DESCENT = 'descent'
-    STATE_GROUND_OPERATIONS = 'ground_operations'
-    STATE_MISSION_COMPLETE = 'mission_complete'
-    STATE_CHOICES = (
-        (STATE_LAUNCH_PREPARATION, 'Launch preparation'),
-        (STATE_COUNTDOWN, 'Countdown'),
-        (STATE_LAUNCH, 'Launch'),
-        (STATE_DESCENT, 'Descent'),
-        (STATE_GROUND_OPERATIONS, 'Ground operations'),
-        (STATE_MISSION_COMPLETE, 'Mission complete')
+    PHASE_LAUNCH_PREPARATION = 'launch_preparation'
+    PHASE_COUNTDOWN = 'countdown'
+    PHASE_LAUNCH = 'launch'
+    PHASE_DESCENT = 'descent'
+    PHASE_GROUND_OPERATIONS = 'ground_operations'
+    PHASE_MISSION_COMPLETE = 'mission_complete'
+    PHASE_CHOICES = (
+        (PHASE_LAUNCH_PREPARATION, 'Launch preparation'),
+        (PHASE_COUNTDOWN, 'Countdown'),
+        (PHASE_LAUNCH, 'Launch'),
+        (PHASE_DESCENT, 'Descent'),
+        (PHASE_GROUND_OPERATIONS, 'Ground operations'),
+        (PHASE_MISSION_COMPLETE, 'Mission complete')
     )
 
     timestamp = models.DateTimeField(db_index=True, unique=True)
-    state = models.CharField(max_length=18, choices=STATE_CHOICES, blank=True)
+    phase = models.CharField(max_length=18, choices=PHASE_CHOICES, blank=True)
     mission_time = models.FloatField(
             help_text='Current mission time in seconds. Negative value means '
                       'countdown to start', null=True)
