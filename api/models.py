@@ -1,13 +1,19 @@
 from django.db import models
 
 
-class SHT(models.Model):
+class TimestampModel(models.Model):
+    """Abstract model class containing "timestamp" field"""
+    timestamp = models.DateTimeField(db_index=True, unique=True)
+
+    class Meta:
+        abstract = True
+
+
+class SHT(TimestampModel):
     """SHT (Humidity and Temperature) data
 
     For Sensirion SHT21 sensor
     """
-    timestamp = models.DateTimeField(db_index=True, unique=True)
-
     humidity = models.DecimalField(
         max_digits=5, decimal_places=2,
         help_text='0 to 100%, resolution 0.04%')
@@ -17,13 +23,11 @@ class SHT(models.Model):
         help_text='-40 to 125℃, resolution 0.01℃')
 
 
-class IMU(models.Model):
+class IMU(TimestampModel):
     """IMU (Inertial Measurement Unit) data
 
     For Pololu AltIMU-10
     """
-    timestamp = models.DateTimeField(db_index=True, unique=True)
-
     gyro_x = models.FloatField(help_text='Angular velocity (X axis) [dps]')
     gyro_y = models.FloatField(help_text='Angular velocity (Y axis) [dps]')
     gyro_z = models.FloatField(help_text='Angular velocity (Z axis) [dps]')
@@ -39,10 +43,8 @@ class IMU(models.Model):
     pressure = models.FloatField(help_text='Air pressure [hPa]')
 
 
-class GPS(models.Model):
+class GPS(TimestampModel):
     """GPS data"""
-    timestamp = models.DateTimeField(db_index=True, unique=True)
-
     latitude = models.FloatField()
     longitude = models.FloatField()
     altitude = models.FloatField(help_text='[m]')
@@ -83,17 +85,14 @@ class GPS(models.Model):
                              help_text='Vertical Dilution Of Precision')
 
 
-class Photo(models.Model):
+class Photo(TimestampModel):
     """Photo taken during the flight"""
-    timestamp = models.DateTimeField(db_index=True, unique=True)
     image = models.ImageField()
     is_panorama = models.BooleanField()
 
 
-class GSInfo(models.Model):
+class GSInfo(TimestampModel):
     """Information about the Ground Station"""
-    timestamp = models.DateTimeField(db_index=True, unique=True)
-
     latitude = models.FloatField()
     longitude = models.FloatField()
     timezone = models.IntegerField(help_text='Timezone as UTC offset in '
@@ -101,7 +100,7 @@ class GSInfo(models.Model):
                                              'becomes -105)')
 
 
-class Status(models.Model):
+class Status(TimestampModel):
     """Mission Status"""
     PHASE_LAUNCH_PREPARATION = 'launch_preparation'
     PHASE_COUNTDOWN = 'countdown'
@@ -118,7 +117,6 @@ class Status(models.Model):
         (PHASE_MISSION_COMPLETE, 'Mission complete')
     )
 
-    timestamp = models.DateTimeField(db_index=True, unique=True)
     phase = models.CharField(max_length=18, choices=PHASE_CHOICES, blank=True)
     mission_time = models.FloatField(
             help_text='Current mission time in seconds. Negative value means '
