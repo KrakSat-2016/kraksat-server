@@ -11,7 +11,7 @@ class StatusTests(KrakSatAPITestCase):
     model = Status
     valid_data = {
         'timestamp': KrakSatAPITestCase.TIMESTAMP,
-        'state': 'launch', 'mission_time': 5.37, 'cansat_online': True
+        'phase': 'launch', 'mission_time': 5.37, 'cansat_online': True
     }
 
     def test_create(self):
@@ -22,9 +22,9 @@ class StatusTests(KrakSatAPITestCase):
         """Ensure sending invalid parameters to /status returns error 400"""
         self._test_invalid_params(
             ('Invalid timestamp', {'timestamp': 'foobar'}),
-            ('State outside choices', {'state': 'foobar'}),
-            ('State too long', {'state': 'foobarfoobarfoobarfoobarfoobar'}),
-            ('Invalid state', {'state': 5}),
+            ('State outside choices', {'phase': 'foobar'}),
+            ('State too long', {'phase': 'foobarfoobarfoobarfoobarfoobar'}),
+            ('Invalid state', {'phase': 5}),
             ('Invalid mission time', {'mission_time': 'foobar'}),
             ('Invalid cansat_online', {'cansat_online': 'foobar'}),
         )
