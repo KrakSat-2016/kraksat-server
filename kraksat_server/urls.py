@@ -7,7 +7,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from api.views import (
     SHTViewSet, IMUViewSet, GPSViewSet, PhotoViewSet, GSInfoViewSet,
-    LatestGSInfoViewSet, LatestStatusViewSet, StatusViewSet
+    LatestGSInfoViewSet, LatestStatusViewSet, StatusViewSet,
+    LatestPlanetaryDataViewSet, PlanetaryDataViewSet
 )
 
 router = routers.DefaultRouter()
@@ -21,6 +22,9 @@ router.register(r'gsinfo', GSInfoViewSet)
 router.register(r'status/latest', LatestStatusViewSet,
                 base_name='latest_status')
 router.register(r'status', StatusViewSet)
+router.register(r'planetarydata/latest', LatestPlanetaryDataViewSet,
+                base_name='latest_planetarydata')
+router.register(r'planetarydata', PlanetaryDataViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

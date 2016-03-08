@@ -122,3 +122,30 @@ class Status(TimestampModel):
             help_text='Current mission time in seconds. Negative value means '
                       'countdown to start', null=True)
     cansat_online = models.BooleanField()
+
+
+class PlanetaryData(TimestampModel):
+    """Calculated planetary data"""
+    mass = models.FloatField(help_text='[kg]', null=True)
+    radius = models.FloatField(help_text='[km]', null=True)
+    escape_velocity = models.FloatField(help_text='[km/s]', null=True)
+    average_density = models.FloatField(help_text='[g/cm³]', null=True)
+    earth_similarity_index = models.FloatField(
+            verbose_name='Earth Similarity Index', help_text='[0-1]',
+            null=True)
+    avg_atm_molar_mass = models.FloatField(
+            verbose_name='Average molar mass of the atmosphere',
+            help_text='[g/mol]', null=True)
+    adiabatic_index = models.FloatField(help_text='> 1.0', null=True)
+    atmosphere_density = models.FloatField(
+            verbose_name='Density of the atmosphere', help_text='[kg/m³]',
+            null=True)
+    avg_molecule_mass = models.FloatField(
+            verbose_name='Average mass of a single molecule', help_text='[g]',
+            null=True)
+    specific_gas_const = models.FloatField(help_text='[J/(K*mol)]', null=True)
+    refractive_index = models.FloatField(help_text='> 1.0', null=True)
+    molar_refractivity = models.FloatField(help_text='[m³/mol]', null=True)
+    atm_speed_of_light = models.FloatField(
+            verbose_name='Speed of light in the atmosphere',
+            help_text='[km/s]', null=True)

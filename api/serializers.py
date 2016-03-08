@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from rest_framework import serializers
 
-from api.models import SHT, IMU, GPS, Photo, GSInfo, Status
+from api.models import SHT, IMU, GPS, Photo, GSInfo, Status, PlanetaryData
 
 
 class SHTSerializer(serializers.HyperlinkedModelSerializer):
@@ -85,3 +85,19 @@ class StatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Status
         fields = '__all__'
+
+
+class PlanetaryDataSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = PlanetaryData
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            if name != 'timestamp':
+                field.validators = [MinValueValidator(0)]
+        self.fields['earth_similarity_index'].validators += [
+            MaxValueValidator(1)]
+        self.fields['adiabatic_index'].validators = [MinValueValidator(1)]
+        self.fields['refractive_index'].validators = [MinValueValidator(1)]

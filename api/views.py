@@ -2,13 +2,15 @@ import rest_framework
 from rest_framework import viewsets
 
 from api.filters import (
-    PhotoFilter, IMUFilter, SHTFilter, GPSFilter, GSInfoFilter, StatusFilter
+    PhotoFilter, IMUFilter, SHTFilter, GPSFilter, GSInfoFilter, StatusFilter,
+    PlanetaryDataFilter
 )
 from api.mixins import TimestampOrderingMixin, LatestRecordMixin
-from api.models import SHT, IMU, GPS, Photo, GSInfo, Status
+from api.models import SHT, IMU, GPS, Photo, GSInfo, Status, PlanetaryData
 from api.serializers import (
     SHTSerializer, IMUSerializer, GPSSerializer, PhotoSerializer,
-    GSInfoSerializer, StatusSerializer
+    GSInfoSerializer, StatusSerializer,
+    PlanetaryDataSerializer
 )
 
 
@@ -93,3 +95,19 @@ class StatusViewSet(BaseStatusViewSet, viewsets.ModelViewSet,
 class LatestStatusViewSet(BaseStatusViewSet, LatestRecordMixin):
     """Latest mission status."""
     display_name = 'Latest Mission Status'
+
+
+class BasePlanetaryDataViewSet(viewsets.GenericViewSet):
+    queryset = PlanetaryData.objects.all()
+    serializer_class = PlanetaryDataSerializer
+    filter_class = PlanetaryDataFilter
+
+
+class PlanetaryDataViewSet(BasePlanetaryDataViewSet, viewsets.ModelViewSet,
+                           TimestampOrderingMixin):
+    """Calculated planetary data."""
+
+
+class LatestPlanetaryDataViewSet(BasePlanetaryDataViewSet, LatestRecordMixin):
+    """Latest calculated planetary data."""
+    display_name = 'Latest Planetary Data'
