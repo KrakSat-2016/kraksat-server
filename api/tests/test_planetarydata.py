@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 
-from api.models import SHT, PlanetaryData
+from api.models import PlanetaryData
 from api.tests.utils import KrakSatAPITestCase
 
 
