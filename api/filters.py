@@ -8,11 +8,13 @@ class TimestampFilterSet(django_filters.FilterSet):
     """Filter set that provides start_timestamp and end_timestamp filters"""
     start_timestamp = django_filters.IsoDateTimeFilter(
         name='timestamp', lookup_type='gt',
-        widget=widgets.DateTimeInput(attrs={'type': 'datetime-local'}),
+        widget=widgets.DateTimeInput(
+                attrs={'type': 'datetime-local', 'step': '0.001'}),
         label='Start timestamp (greater than)')
     end_timestamp = django_filters.IsoDateTimeFilter(
         name='timestamp', lookup_type='lte',
-        widget=widgets.DateTimeInput(attrs={'type': 'datetime-local'}),
+        widget=widgets.DateTimeInput(
+                attrs={'type': 'datetime-local', 'step': '0.001'}),
         label='End timestamp (less than or equal)')
 
 
