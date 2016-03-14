@@ -3,41 +3,68 @@ import os
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from rest_framework import serializers
+from rest_framework.permissions import SAFE_METHODS
 
 from api.models import SHT, IMU, GPS, Photo, GSInfo, Status, PlanetaryData
 
 
-class SHTSerializer(serializers.HyperlinkedModelSerializer):
+class FieldSubsetModelSerializer(serializers.ModelSerializer):
+    """
+    ModelSerializer subclass that includes only the fields requested via
+    'fields' GET parameter in the response.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.context['request'].method in SAFE_METHODS:
+            # Return only requested fields
+            fields = self.context['request'].query_params.get('fields')
+            if fields:
+                fields = fields.split(',')
+                allowed = set(fields)
+                existing = set(self.fields.keys())
+                for field in existing - allowed:
+                    self.fields.pop(field)
+        else:
+            self.add_validators()
+
+    def add_validators(self):
+        """Add validators to fields. Invoked only on unsafe HTTP methods"""
+        pass
+
+
+class SHTSerializer(FieldSubsetModelSerializer,
+                    serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SHT
         fields = ('url', 'timestamp', 'humidity', 'temperature')
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def add_validators(self):
         self.fields['humidity'].validators = [MinValueValidator(0),
                                               MaxValueValidator(100)]
         self.fields['temperature'].validators = [MinValueValidator(-40),
                                                  MaxValueValidator(125)]
 
 
-class IMUSerializer(serializers.HyperlinkedModelSerializer):
+class IMUSerializer(FieldSubsetModelSerializer,
+                    serializers.HyperlinkedModelSerializer):
     class Meta:
         model = IMU
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def add_validators(self):
         self.fields['pressure'].validators = [MinValueValidator(260),
                                               MaxValueValidator(1260)]
 
 
-class GPSSerializer(serializers.HyperlinkedModelSerializer):
+class GPSSerializer(FieldSubsetModelSerializer,
+                    serializers.HyperlinkedModelSerializer):
     class Meta:
         model = GPS
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def add_validators(self):
         self.fields['latitude'].validators = [MinValueValidator(-90),
                                               MaxValueValidator(90)]
         self.fields['longitude'].validators = [MinValueValidator(-180),
@@ -49,7 +76,8 @@ class GPSSerializer(serializers.HyperlinkedModelSerializer):
         self.fields['satellites_in_view'].validators = [MinValueValidator(0)]
 
 
-class PhotoSerializer(serializers.HyperlinkedModelSerializer):
+class PhotoSerializer(FieldSubsetModelSerializer,
+                      serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Photo
         fields = '__all__'
@@ -66,13 +94,13 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
         return value
 
 
-class GSInfoSerializer(serializers.HyperlinkedModelSerializer):
+class GSInfoSerializer(FieldSubsetModelSerializer,
+                       serializers.HyperlinkedModelSerializer):
     class Meta:
         model = GSInfo
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def add_validators(self):
         self.fields['latitude'].validators = [MinValueValidator(-90),
                                               MaxValueValidator(90)]
         self.fields['longitude'].validators = [MinValueValidator(-180),
@@ -81,19 +109,20 @@ class GSInfoSerializer(serializers.HyperlinkedModelSerializer):
                                               MaxValueValidator(24 * 60)]
 
 
-class StatusSerializer(serializers.HyperlinkedModelSerializer):
+class StatusSerializer(FieldSubsetModelSerializer,
+                       serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Status
         fields = '__all__'
 
 
-class PlanetaryDataSerializer(serializers.HyperlinkedModelSerializer):
+class PlanetaryDataSerializer(FieldSubsetModelSerializer,
+                              serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PlanetaryData
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def add_validators(self):
         for name, field in self.fields.items():
             if name != 'timestamp':
                 field.validators = [MinValueValidator(0)]
