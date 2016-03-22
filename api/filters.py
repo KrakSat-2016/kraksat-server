@@ -1,7 +1,9 @@
 import django_filters
 from django.forms import widgets
 
-from api.models import Photo, Telemetry, GPS, GSInfo, Status, PlanetaryData
+from api.models import (
+    Photo, Telemetry, GPS, GSInfo, Status, PlanetaryData, Kundt
+)
 
 
 class TimestampFilterSet(django_filters.FilterSet):
@@ -21,6 +23,14 @@ class TimestampFilterSet(django_filters.FilterSet):
 class TelemetryFilter(TimestampFilterSet):
     class Meta:
         model = Telemetry
+        fields = ()
+
+
+class KundtFilter(TimestampFilterSet):
+    frequency = django_filters.RangeFilter(name='frequency')
+
+    class Meta:
+        model = Kundt
         fields = ()
 
 

@@ -5,7 +5,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from rest_framework import serializers
 from rest_framework.permissions import SAFE_METHODS
 
-from api.models import Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData
+from api.models import (
+    Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData, Kundt
+)
 
 
 class FieldSubsetModelSerializer(serializers.ModelSerializer):
@@ -47,6 +49,17 @@ class TelemetrySerializer(FieldSubsetModelSerializer,
                                                  MaxValueValidator(125)]
         self.fields['pressure'].validators = [MinValueValidator(260),
                                               MaxValueValidator(1260)]
+
+
+class KundtSerializer(FieldSubsetModelSerializer,
+                      serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Kundt
+        fields = '__all__'
+
+    def add_validators(self):
+        self.fields['frequency'].validators = [MinValueValidator(0)]
+        self.fields['amplitude'].validators = [MinValueValidator(0)]
 
 
 class GPSSerializer(FieldSubsetModelSerializer,

@@ -3,13 +3,15 @@ from rest_framework import viewsets
 
 from api.filters import (
     PhotoFilter, TelemetryFilter, GPSFilter, GSInfoFilter, StatusFilter,
-    PlanetaryDataFilter
+    PlanetaryDataFilter, KundtFilter
 )
 from api.mixins import TimestampOrderingMixin, LatestRecordMixin
-from api.models import Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData
+from api.models import (
+    Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData, Kundt
+)
 from api.serializers import (
     TelemetrySerializer, GPSSerializer, PhotoSerializer, GSInfoSerializer,
-    StatusSerializer, PlanetaryDataSerializer
+    StatusSerializer, PlanetaryDataSerializer, KundtSerializer
 )
 
 
@@ -37,6 +39,14 @@ class TelemetryViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     queryset = Telemetry.objects.all()
     serializer_class = TelemetrySerializer
     filter_class = TelemetryFilter
+
+
+class KundtViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
+    """Kundt's tube data."""
+    display_name = "Kundt's Tube Data"
+    queryset = Kundt.objects.all()
+    serializer_class = KundtSerializer
+    filter_class = KundtFilter
 
 
 class GPSViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):

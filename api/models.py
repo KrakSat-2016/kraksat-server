@@ -90,6 +90,13 @@ class GPS(TimestampModel):
                              help_text='Vertical Dilution Of Precision')
 
 
+class Kundt(models.Model):
+    """Data obtained from the Kundt's tube"""
+    timestamp = models.DateTimeField(db_index=True)
+    frequency = models.FloatField(db_index=True, unique=True, help_text='[Hz]')
+    amplitude = models.IntegerField()
+
+
 class Photo(TimestampModel):
     """Photo taken during the flight"""
     image = models.ImageField()

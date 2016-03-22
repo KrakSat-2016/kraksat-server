@@ -6,13 +6,14 @@ from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
 from api.views import (
-    TelemetryViewSet, GPSViewSet, PhotoViewSet, GSInfoViewSet,
+    TelemetryViewSet, KundtViewSet, GPSViewSet, PhotoViewSet, GSInfoViewSet,
     LatestGSInfoViewSet, LatestStatusViewSet, StatusViewSet,
     LatestPlanetaryDataViewSet, PlanetaryDataViewSet
 )
 
 router = routers.DefaultRouter()
 router.register(r'telemetry', TelemetryViewSet)
+router.register(r'kundt', KundtViewSet)
 router.register(r'gps', GPSViewSet)
 router.register(r'photos', PhotoViewSet)
 router.register(r'gsinfo/latest', LatestGSInfoViewSet,
