@@ -1,7 +1,7 @@
 import django_filters
 from django.forms import widgets
 
-from api.models import Photo, SHT, IMU, GPS, GSInfo, Status, PlanetaryData
+from api.models import Photo, Telemetry, GPS, GSInfo, Status, PlanetaryData
 
 
 class TimestampFilterSet(django_filters.FilterSet):
@@ -18,15 +18,9 @@ class TimestampFilterSet(django_filters.FilterSet):
         label='End timestamp (less than or equal)')
 
 
-class SHTFilter(TimestampFilterSet):
+class TelemetryFilter(TimestampFilterSet):
     class Meta:
-        model = SHT
-        fields = ()
-
-
-class IMUFilter(TimestampFilterSet):
-    class Meta:
-        model = IMU
+        model = Telemetry
         fields = ()
 
 

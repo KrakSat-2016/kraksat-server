@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from rest_framework import serializers
 from rest_framework.permissions import SAFE_METHODS
 
-from api.models import SHT, IMU, GPS, Photo, GSInfo, Status, PlanetaryData
+from api.models import Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData
 
 
 class FieldSubsetModelSerializer(serializers.ModelSerializer):
@@ -34,26 +34,17 @@ class FieldSubsetModelSerializer(serializers.ModelSerializer):
         pass
 
 
-class SHTSerializer(FieldSubsetModelSerializer,
-                    serializers.HyperlinkedModelSerializer):
+class TelemetrySerializer(FieldSubsetModelSerializer,
+                          serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = SHT
-        fields = ('url', 'timestamp', 'humidity', 'temperature')
+        model = Telemetry
+        fields = '__all__'
 
     def add_validators(self):
         self.fields['humidity'].validators = [MinValueValidator(0),
                                               MaxValueValidator(100)]
         self.fields['temperature'].validators = [MinValueValidator(-40),
                                                  MaxValueValidator(125)]
-
-
-class IMUSerializer(FieldSubsetModelSerializer,
-                    serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = IMU
-        fields = '__all__'
-
-    def add_validators(self):
         self.fields['pressure'].validators = [MinValueValidator(260),
                                               MaxValueValidator(1260)]
 

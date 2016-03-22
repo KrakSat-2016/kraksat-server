@@ -2,15 +2,14 @@ import rest_framework
 from rest_framework import viewsets
 
 from api.filters import (
-    PhotoFilter, IMUFilter, SHTFilter, GPSFilter, GSInfoFilter, StatusFilter,
+    PhotoFilter, TelemetryFilter, GPSFilter, GSInfoFilter, StatusFilter,
     PlanetaryDataFilter
 )
 from api.mixins import TimestampOrderingMixin, LatestRecordMixin
-from api.models import SHT, IMU, GPS, Photo, GSInfo, Status, PlanetaryData
+from api.models import Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData
 from api.serializers import (
-    SHTSerializer, IMUSerializer, GPSSerializer, PhotoSerializer,
-    GSInfoSerializer, StatusSerializer,
-    PlanetaryDataSerializer
+    TelemetrySerializer, GPSSerializer, PhotoSerializer, GSInfoSerializer,
+    StatusSerializer, PlanetaryDataSerializer
 )
 
 
@@ -32,20 +31,12 @@ def get_view_name(view_cls, suffix=None):
     return rest_framework.views.get_view_name(view_cls, suffix)
 
 
-class SHTViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
-    """SHT (Humidity and Temperature) sensor data."""
-    display_name = 'SHT Data'
-    queryset = SHT.objects.all()
-    serializer_class = SHTSerializer
-    filter_class = SHTFilter
-
-
-class IMUViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
-    """IMU (Inertial Measurement Unit) sensor data."""
-    display_name = 'IMU Data'
-    queryset = IMU.objects.all()
-    serializer_class = IMUSerializer
-    filter_class = IMUFilter
+class TelemetryViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
+    """Telemetry data."""
+    display_name = 'Telemetry Data'
+    queryset = Telemetry.objects.all()
+    serializer_class = TelemetrySerializer
+    filter_class = TelemetryFilter
 
 
 class GPSViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):

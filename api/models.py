@@ -9,11 +9,22 @@ class TimestampModel(models.Model):
         abstract = True
 
 
-class SHT(TimestampModel):
-    """SHT (Humidity and Temperature) data
+class Telemetry(TimestampModel):
+    """Telemetry data
 
-    For Sensirion SHT21 sensor
+    This contains data from the following sensors:
+    * Voltage and Current
+    * ME2-O2 (Oxygen)
+    * Unitra DOI-30 Geiger Counter
+    * Humidity, Temperature: Sensirion SHT21
+    * Pressure, IMU (Gyro + Accel + Magnet): Pololu AltIMU-10 v4
     """
+    voltage = models.IntegerField()
+    current = models.IntegerField()
+
+    oxygen = models.IntegerField()
+    ion_radiation = models.IntegerField(verbose_name='Ionizing radiation')
+
     humidity = models.DecimalField(
         max_digits=5, decimal_places=2,
         help_text='0 to 100%, resolution 0.04%')
@@ -22,12 +33,8 @@ class SHT(TimestampModel):
         max_digits=5, decimal_places=2,
         help_text='-40 to 125℃, resolution 0.01℃')
 
+    pressure = models.FloatField(help_text='Air pressure [hPa]')
 
-class IMU(TimestampModel):
-    """IMU (Inertial Measurement Unit) data
-
-    For Pololu AltIMU-10
-    """
     gyro_x = models.FloatField(help_text='Angular velocity (X axis) [dps]')
     gyro_y = models.FloatField(help_text='Angular velocity (Y axis) [dps]')
     gyro_z = models.FloatField(help_text='Angular velocity (Z axis) [dps]')
@@ -39,8 +46,6 @@ class IMU(TimestampModel):
     magnet_x = models.FloatField(help_text='Magnetic field (X axis) [gauss]')
     magnet_y = models.FloatField(help_text='Magnetic field (Y axis) [gauss]')
     magnet_z = models.FloatField(help_text='Magnetic field (Z axis) [gauss]')
-
-    pressure = models.FloatField(help_text='Air pressure [hPa]')
 
 
 class GPS(TimestampModel):
