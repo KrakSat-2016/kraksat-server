@@ -5,7 +5,7 @@ from datetime import timedelta
 from django.core.management import BaseCommand
 from django.utils import timezone
 
-from api.models import SHT, IMU
+from api.models import Telemetry
 
 
 class Command(BaseCommand):
@@ -44,8 +44,7 @@ class Command(BaseCommand):
         dt = timezone.now()
         delta = timedelta(seconds=tick)
 
-        sht = []
-        imu = []
+        telemetry = []
         while height > 0:
             temp = gen_temperature(height, options['temp_error'],
                                    options['temp_noise']) - 273.15
@@ -54,21 +53,20 @@ class Command(BaseCommand):
             pressure = gen_pressure(height, options['pressure_error'],
                                     options['pressure_noise']) / 100
 
-            sht.append(SHT(timestamp=dt, humidity=50, temperature=temp))
-            imu.append(IMU(timestamp=dt,
-                           gyro_x=0, gyro_y=0, gyro_z=0,
-                           accel_x=0, accel_y=grav, accel_z=0,
-                           magnet_x=0, magnet_y=0, magnet_z=0,
-                           pressure=pressure))
+            telemetry.append(Telemetry(
+                    timestamp=dt,
+                    voltage=0, current=0, oxygen=0, ion_radiation=0,
+                    humidity=50, temperature=temp, pressure=pressure,
+                    gyro_x=0, gyro_y=0, gyro_z=0,
+                    accel_x=0, accel_y=grav, accel_z=0,
+                    magnet_x=0, magnet_y=0, magnet_z=0))
 
             dt += delta
             height -= step
 
         if options['clear']:
-            SHT.objects.all().delete()
-            IMU.objects.all().delete()
-        SHT.objects.bulk_create(sht)
-        IMU.objects.bulk_create(imu)
+            Telemetry.objects.all().delete()
+        Telemetry.objects.bulk_create(telemetry)
 
 
 def error_noise(func):
