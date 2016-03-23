@@ -153,7 +153,9 @@ class PlanetaryData(TimestampModel):
     avg_molecule_mass = models.FloatField(
             verbose_name='Average mass of a single molecule', help_text='[g]',
             null=True)
-    specific_gas_const = models.FloatField(help_text='[J/(K*mol)]', null=True)
+    specific_gas_const = models.FloatField(
+            verbose_name='Specific gas constant', help_text='[J/(K*mol)]',
+            null=True)
     refractive_index = models.FloatField(help_text='> 1.0', null=True)
     molar_refractivity = models.FloatField(help_text='[m³/mol]', null=True)
     atm_speed_of_light = models.FloatField(
