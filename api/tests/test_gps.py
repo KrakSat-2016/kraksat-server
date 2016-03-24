@@ -14,9 +14,8 @@ class GPSTests(KrakSatAPITestCase):
         'latitude': 13.01, 'longitude': -50.07,
         'altitude': 213.065, 'direction': 20.5,
         'speed_over_ground': 11.13,
-        'active_satellites': 5, 'satellites_in_view': 11,
-        'quality': 'gps', 'fix_type': '3d',
-        'pdop': 5.1, 'hdop': 1.01, 'vdop': 3.07
+        'active_satellites': 5, 'quality': 'gps', 'hdop': 1.01
+        # 'satellites_in_view': 11, 'fix_type': '3d', 'pdop': 5.1, 'vdop': 3.07
     }
 
     def test_create(self):
@@ -39,11 +38,11 @@ class GPSTests(KrakSatAPITestCase):
             ('Invalid speed over ground', {'speed_over_ground': 'foobar'}),
             ('Active satellites below 0', {'active_satellites': -1}),
             ('Invalid active satellites', {'active_satellites': 'foobar'}),
-            ('Satellites in view below 0', {'satellites_in_view': -1}),
-            ('Invalid satellites in view', {'satellites_in_view': 'foobar'}),
+            # ('Satellites in view below 0', {'satellites_in_view': -1}),
+            # ('Invalid satellites in view', {'satellites_in_view': 'foobar'}),
             ('Invalid quality', {'quality': 'foobar'}),
-            ('Invalid fix type', {'fix_type': 'foobar'}),
-            ('Invalid pdop', {'pdop': 'foobar'}),
+            # ('Invalid fix type', {'fix_type': 'foobar'}),
+            # ('Invalid pdop', {'pdop': 'foobar'}),
             ('Invalid hdop', {'hdop': 'foobar'}),
-            ('Invalid vdop', {'vdop': 'foobar'}),
+            # ('Invalid vdop', {'vdop': 'foobar'}),
         )
