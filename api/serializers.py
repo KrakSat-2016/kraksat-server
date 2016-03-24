@@ -77,7 +77,7 @@ class GPSSerializer(FieldSubsetModelSerializer,
                                                MaxValueValidator(360)]
         self.fields['speed_over_ground'].validators = [MinValueValidator(0)]
         self.fields['active_satellites'].validators = [MinValueValidator(0)]
-        self.fields['satellites_in_view'].validators = [MinValueValidator(0)]
+        # self.fields['satellites_in_view'].validators = [MinValueValidator(0)]
 
 
 class PhotoSerializer(FieldSubsetModelSerializer,

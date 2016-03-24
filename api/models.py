@@ -48,16 +48,16 @@ class Telemetry(TimestampModel):
 
 class GPS(TimestampModel):
     """GPS data"""
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    altitude = models.FloatField(help_text='[m]')
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
+    altitude = models.FloatField(null=True, help_text='[m]')
 
     direction = models.FloatField(
-        help_text='Track Made Good (degrees relative to north) [°]')
-    speed_over_ground = models.FloatField(help_text='[km/h]')
+        null=True, help_text='Track Made Good (degrees relative to north) [°]')
+    speed_over_ground = models.FloatField(null=True, help_text='[km/h]')
 
     active_satellites = models.PositiveSmallIntegerField()
-    satellites_in_view = models.PositiveSmallIntegerField()
+    # satellites_in_view = models.PositiveSmallIntegerField()
 
     # Quality
     QUALITY_NO_FIX = 'no_fix'
@@ -71,21 +71,21 @@ class GPS(TimestampModel):
     quality = models.CharField(max_length=6, choices=QUALITY_CHOICES)
 
     # Dilution Of Precision
-    FIX_TYPE_NO_FIX = 'no_fix'
-    FIX_TYPE_2D = '2d'
-    FIX_TYPE_3D = '3d'
-    FIX_TYPE_CHOICES = (
-        (FIX_TYPE_NO_FIX, 'No fix'),
-        (FIX_TYPE_2D, '2D'),
-        (FIX_TYPE_3D, '3D')
-    )
-    fix_type = models.CharField(max_length=6, choices=FIX_TYPE_CHOICES)
-    pdop = models.FloatField(verbose_name='PDOP',
-                             help_text='Position (3D) Dilution Of Precision')
-    hdop = models.FloatField(verbose_name='HDOP',
+    # FIX_TYPE_NO_FIX = 'no_fix'
+    # FIX_TYPE_2D = '2d'
+    # FIX_TYPE_3D = '3d'
+    # FIX_TYPE_CHOICES = (
+    #     (FIX_TYPE_NO_FIX, 'No fix'),
+    #     (FIX_TYPE_2D, '2D'),
+    #     (FIX_TYPE_3D, '3D')
+    # )
+    # fix_type = models.CharField(max_length=6, choices=FIX_TYPE_CHOICES)
+    # pdop = models.FloatField(verbose_name='PDOP',
+    #                          help_text='Position (3D) Dilution Of Precision')
+    hdop = models.FloatField(null=True, verbose_name='HDOP',
                              help_text='Horizontal Dilution Of Precision')
-    vdop = models.FloatField(verbose_name='VDOP',
-                             help_text='Vertical Dilution Of Precision')
+    # vdop = models.FloatField(verbose_name='VDOP',
+    #                          help_text='Vertical Dilution Of Precision')
 
 
 class Kundt(models.Model):
