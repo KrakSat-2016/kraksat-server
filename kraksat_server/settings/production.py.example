@@ -29,6 +29,7 @@ DATABASES = {
     }
 }
 
+STATIC_ROOT = ''
 MEDIA_ROOT = ''
 
 CORS_ORIGIN_WHITELIST = (
