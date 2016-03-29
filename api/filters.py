@@ -2,7 +2,7 @@ import django_filters
 from django.forms import widgets
 
 from api.models import (
-    Photo, Telemetry, GPS, GSInfo, Status, PlanetaryData, Kundt
+    Photo, Telemetry, GPS, GSInfo, Status, PlanetaryData, Kundt, VideoInfo
 )
 
 
@@ -61,4 +61,10 @@ class StatusFilter(TimestampFilterSet):
 class PlanetaryDataFilter(TimestampFilterSet):
     class Meta:
         model = PlanetaryData
+        fields = ()
+
+
+class VideoInfoFilter(TimestampFilterSet):
+    class Meta:
+        model = VideoInfo
         fields = ()

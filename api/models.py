@@ -161,3 +161,9 @@ class PlanetaryData(TimestampModel):
     atm_speed_of_light = models.FloatField(
             verbose_name='Speed of light in the atmosphere',
             help_text='[km/s]', null=True)
+
+
+class VideoInfo(TimestampModel):
+    """Video info for embedding player"""
+    yt_video_id = models.CharField(max_length=20,
+                                   verbose_name='YouTube stream/video ID')

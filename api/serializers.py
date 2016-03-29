@@ -6,7 +6,7 @@ from rest_framework import serializers
 from rest_framework.permissions import SAFE_METHODS
 
 from api.models import (
-    Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData, Kundt
+    Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData, Kundt, VideoInfo
 )
 
 
@@ -134,3 +134,9 @@ class PlanetaryDataSerializer(FieldSubsetModelSerializer,
             MaxValueValidator(1)]
         self.fields['adiabatic_index'].validators = [MinValueValidator(1)]
         self.fields['refractive_index'].validators = [MinValueValidator(1)]
+
+
+class VideoInfoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = VideoInfo
+        fields = '__all__'

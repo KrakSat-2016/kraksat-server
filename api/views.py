@@ -3,15 +3,16 @@ from rest_framework import viewsets
 
 from api.filters import (
     PhotoFilter, TelemetryFilter, GPSFilter, GSInfoFilter, StatusFilter,
-    PlanetaryDataFilter, KundtFilter
+    PlanetaryDataFilter, KundtFilter, VideoInfoFilter
 )
 from api.mixins import TimestampOrderingMixin, LatestRecordMixin
 from api.models import (
-    Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData, Kundt
+    Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData, Kundt, VideoInfo
 )
 from api.serializers import (
     TelemetrySerializer, GPSSerializer, PhotoSerializer, GSInfoSerializer,
-    StatusSerializer, PlanetaryDataSerializer, KundtSerializer
+    StatusSerializer, PlanetaryDataSerializer, KundtSerializer,
+    VideoInfoSerializer
 )
 
 
@@ -112,3 +113,21 @@ class PlanetaryDataViewSet(BasePlanetaryDataViewSet, viewsets.ModelViewSet,
 class LatestPlanetaryDataViewSet(BasePlanetaryDataViewSet, LatestRecordMixin):
     """Latest calculated planetary data."""
     display_name = 'Latest Planetary Data'
+
+
+class BaseVideoInfoViewSet(viewsets.GenericViewSet):
+    queryset = VideoInfo.objects.all()
+    serializer_class = VideoInfoSerializer
+    filter_class = VideoInfoFilter
+
+
+class VideoInfoViewSet(BaseVideoInfoViewSet, viewsets.ModelViewSet,
+                       TimestampOrderingMixin):
+    """
+    Live Stream/Video Info for displaying the video from the probe's camera.
+    """
+
+
+class LatestVideoInfoViewSet(BaseVideoInfoViewSet, LatestRecordMixin):
+    """Latest Live Stream/Video Info."""
+    display_name = 'Latest Video Info'
