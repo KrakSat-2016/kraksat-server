@@ -12,19 +12,19 @@ class PlanetaryDataTests(KrakSatAPITestCase):
     valid_data = {
         'timestamp': KrakSatAPITestCase.TIMESTAMP,
         'mass': 5.97237e24,
-        'radius': 6371,
-        'escape_velocity': 11.186,
-        'average_density': 5.514,
+        'radius': 6371000,
+        'escape_velocity': 11186,
+        'average_density': 5514,
         'earth_similarity_index': 1,
         'avg_atm_molar_mass': 28.97,
         'speed_of_sound': 340.29,
         'adiabatic_index': 1.403,
         'atmosphere_density': 1.2922,
-        'avg_molecule_mass': 2.992e-23,
+        'avg_molecule_mass': 2.992e-26,
         'specific_gas_const': 287.058,
         'refractive_index': 1.0002772,
         'molar_refractivity': 4.143e-6,
-        'atm_speed_of_light': 299709.378
+        'atm_speed_of_light': 299709378
     }
 
     def test_create(self):

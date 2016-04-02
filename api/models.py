@@ -137,9 +137,9 @@ class Status(TimestampModel):
 class PlanetaryData(TimestampModel):
     """Calculated planetary data"""
     mass = models.FloatField(help_text='[kg]', null=True)
-    radius = models.FloatField(help_text='[km]', null=True)
-    escape_velocity = models.FloatField(help_text='[km/s]', null=True)
-    average_density = models.FloatField(help_text='[g/cm³]', null=True)
+    radius = models.FloatField(help_text='[m]', null=True)
+    escape_velocity = models.FloatField(help_text='[m/s]', null=True)
+    average_density = models.FloatField(help_text='[kg/m³]', null=True)
     earth_similarity_index = models.FloatField(
             verbose_name='Earth Similarity Index', help_text='[0-1]',
             null=True)
@@ -152,7 +152,7 @@ class PlanetaryData(TimestampModel):
             verbose_name='Density of the atmosphere', help_text='[kg/m³]',
             null=True)
     avg_molecule_mass = models.FloatField(
-            verbose_name='Average mass of a single molecule', help_text='[g]',
+            verbose_name='Average mass of a single molecule', help_text='[kg]',
             null=True)
     specific_gas_const = models.FloatField(
             verbose_name='Specific gas constant', help_text='[J/(K*mol)]',
@@ -161,7 +161,7 @@ class PlanetaryData(TimestampModel):
     molar_refractivity = models.FloatField(help_text='[m³/mol]', null=True)
     atm_speed_of_light = models.FloatField(
             verbose_name='Speed of light in the atmosphere',
-            help_text='[km/s]', null=True)
+            help_text='[m/s]', null=True)
 
 
 class VideoInfo(TimestampModel):
