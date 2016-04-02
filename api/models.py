@@ -143,6 +143,7 @@ class PlanetaryData(TimestampModel):
     earth_similarity_index = models.FloatField(
             verbose_name='Earth Similarity Index', help_text='[0-1]',
             null=True)
+    speed_of_sound = models.FloatField(help_text='[m/s]', null=True)
     avg_atm_molar_mass = models.FloatField(
             verbose_name='Average molar mass of the atmosphere',
             help_text='[g/mol]', null=True)
