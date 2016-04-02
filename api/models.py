@@ -146,7 +146,7 @@ class PlanetaryData(TimestampModel):
     speed_of_sound = models.FloatField(help_text='[m/s]', null=True)
     avg_atm_molar_mass = models.FloatField(
             verbose_name='Average molar mass of the atmosphere',
-            help_text='[g/mol]', null=True)
+            help_text='[kg/mol]', null=True)
     adiabatic_index = models.FloatField(help_text='> 1.0', null=True)
     atmosphere_density = models.FloatField(
             verbose_name='Density of the atmosphere', help_text='[kg/m³]',

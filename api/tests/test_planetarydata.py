@@ -16,7 +16,7 @@ class PlanetaryDataTests(KrakSatAPITestCase):
         'escape_velocity': 11186,
         'average_density': 5514,
         'earth_similarity_index': 1,
-        'avg_atm_molar_mass': 28.97,
+        'avg_atm_molar_mass': 28970,
         'speed_of_sound': 340.29,
         'adiabatic_index': 1.403,
         'atmosphere_density': 1.2922,
