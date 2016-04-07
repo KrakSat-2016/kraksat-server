@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 
 
@@ -8,13 +8,16 @@ class TimestampOrderingMixin:
     ordering = ('timestamp',)
 
 
-class LatestRecordMixin:
-    """Retrieves first element in list()"""
-    append_suffix = False
+class LatestRecordModelViewSet(viewsets.ModelViewSet):
+    """Retrieves the first element in list() when set ?latest=1 by GET."""
 
     def list(self, request, *args, **kwargs):
-        obj = self.get_queryset().order_by('-timestamp').first()
-        if obj is None:
-            return Response(None, status=status.HTTP_204_NO_CONTENT)
-        serializer = self.get_serializer(obj)
-        return Response(serializer.data)
+        if ('latest' in request.GET and
+                request.GET['latest'].lower() not in ('0', 'false') and
+                request.GET['latest']):
+            obj = self.get_queryset().order_by('-timestamp').first()
+            if obj is None:
+                return Response(None, status=status.HTTP_204_NO_CONTENT)
+            serializer = self.get_serializer(obj)
+            return Response(serializer.data)
+        return super().list(request, *args, **kwargs)

@@ -5,7 +5,7 @@ from api.filters import (
     PhotoFilter, TelemetryFilter, GPSFilter, GSInfoFilter, StatusFilter,
     PlanetaryDataFilter, KundtFilter, VideoInfoFilter
 )
-from api.mixins import TimestampOrderingMixin, LatestRecordMixin
+from api.mixins import TimestampOrderingMixin, LatestRecordModelViewSet
 from api.models import (
     Telemetry, GPS, Photo, GSInfo, Status, PlanetaryData, Kundt, VideoInfo
 )
@@ -34,7 +34,7 @@ def get_view_name(view_cls, suffix=None):
     return rest_framework.views.get_view_name(view_cls, suffix)
 
 
-class TelemetryViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
+class TelemetryViewSet(LatestRecordModelViewSet, TimestampOrderingMixin):
     """Telemetry data."""
     display_name = 'Telemetry Data'
     queryset = Telemetry.objects.all()
@@ -42,7 +42,7 @@ class TelemetryViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     filter_class = TelemetryFilter
 
 
-class KundtViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
+class KundtViewSet(LatestRecordModelViewSet, TimestampOrderingMixin):
     """Kundt's tube data."""
     display_name = "Kundt's Tube Data"
     queryset = Kundt.objects.all()
@@ -50,7 +50,7 @@ class KundtViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     filter_class = KundtFilter
 
 
-class GPSViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
+class GPSViewSet(LatestRecordModelViewSet, TimestampOrderingMixin):
     """GPS (Global Positioning System) fix data."""
     display_name = 'GPS Fix Data'
     queryset = GPS.objects.all()
@@ -65,69 +65,33 @@ class PhotoViewSet(viewsets.ModelViewSet, TimestampOrderingMixin):
     filter_class = PhotoFilter
 
 
-class BaseGSInfoViewSet(viewsets.GenericViewSet):
+class GSInfoViewSet(LatestRecordModelViewSet, TimestampOrderingMixin):
+    """Information about the Ground Station."""
     queryset = GSInfo.objects.all()
     serializer_class = GSInfoSerializer
     filter_class = GSInfoFilter
-
-
-class GSInfoViewSet(BaseGSInfoViewSet, viewsets.ModelViewSet,
-                    TimestampOrderingMixin):
-    """Information about the Ground Station."""
     display_name = 'Ground Station Info'
 
 
-class LatestGSInfoViewSet(BaseGSInfoViewSet, LatestRecordMixin):
-    """Latest information about the Ground Station."""
-    display_name = 'Latest Ground Station Info'
-
-
-class BaseStatusViewSet(viewsets.GenericViewSet):
+class StatusViewSet(LatestRecordModelViewSet, TimestampOrderingMixin):
+    """Mission status."""
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
     filter_class = StatusFilter
-
-
-class StatusViewSet(BaseStatusViewSet, viewsets.ModelViewSet,
-                    TimestampOrderingMixin):
-    """Mission status."""
     display_name = 'Mission Status'
 
 
-class LatestStatusViewSet(BaseStatusViewSet, LatestRecordMixin):
-    """Latest mission status."""
-    display_name = 'Latest Mission Status'
-
-
-class BasePlanetaryDataViewSet(viewsets.GenericViewSet):
+class PlanetaryDataViewSet(LatestRecordModelViewSet, TimestampOrderingMixin):
+    """Calculated planetary data."""
     queryset = PlanetaryData.objects.all()
     serializer_class = PlanetaryDataSerializer
     filter_class = PlanetaryDataFilter
 
 
-class PlanetaryDataViewSet(BasePlanetaryDataViewSet, viewsets.ModelViewSet,
-                           TimestampOrderingMixin):
-    """Calculated planetary data."""
-
-
-class LatestPlanetaryDataViewSet(BasePlanetaryDataViewSet, LatestRecordMixin):
-    """Latest calculated planetary data."""
-    display_name = 'Latest Planetary Data'
-
-
-class BaseVideoInfoViewSet(viewsets.GenericViewSet):
-    queryset = VideoInfo.objects.all()
-    serializer_class = VideoInfoSerializer
-    filter_class = VideoInfoFilter
-
-
-class VideoInfoViewSet(BaseVideoInfoViewSet, viewsets.ModelViewSet,
-                       TimestampOrderingMixin):
+class VideoInfoViewSet(LatestRecordModelViewSet, TimestampOrderingMixin):
     """
     Live Stream/Video Info for displaying the video from the probe's camera.
     """
-
-
-class LatestVideoInfoViewSet(BaseVideoInfoViewSet, LatestRecordMixin):
-    """Latest Live Stream/Video Info."""
-    display_name = 'Latest Video Info'
+    queryset = VideoInfo.objects.all()
+    serializer_class = VideoInfoSerializer
+    filter_class = VideoInfoFilter
