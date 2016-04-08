@@ -46,8 +46,9 @@ class Telemetry(TimestampModel):
     magnet_z = models.FloatField(help_text='Magnetic field (Z axis) [gauss]')
 
 
-class GPS(TimestampModel):
+class GPS(models.Model):
     """GPS data"""
+    timestamp = models.DateTimeField(db_index=True)
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
     altitude = models.FloatField(null=True, help_text='[m]')
@@ -166,5 +167,5 @@ class PlanetaryData(TimestampModel):
 
 class VideoInfo(TimestampModel):
     """Video info for embedding player"""
-    yt_video_id = models.CharField(max_length=20,
+    yt_video_id = models.CharField(max_length=20, null=True,
                                    verbose_name='YouTube stream/video ID')
